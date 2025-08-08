@@ -1,15 +1,15 @@
 # Ahsen 3D Website
 
-Ahsen 3D, 3D modelleri satışa sunabileceğiniz ve baskı hizmetlerinden yararlanabileceğiniz bir platformdur.
+Ahsen 3D is a platform where you can sell 3D models and use printing services.
 
-## Yapı
+## Structure
 
-- **Backend**: Go ile yazılmıştır, ürünler ve veritabanı yönetimi sağlar.
-- **Frontend**: HTML ile yapılacak ve backend ile çalışacaktır.
+- **Backend**: Written in Go, handles product and database management.
+- **Frontend**: Will be implemented using HTML and work with the backend.
 
-## Backend Çalıştırma
+## Running Backend
 
-1. **Modülleri yükleyin**:
+1. **Install dependencies**:
 
    ```bash
    cd backend
