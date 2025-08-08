@@ -3,16 +3,23 @@ package db
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/joho/godotenv"
 )
 
 var DB *pgxpool.Pool
 
 // ConnectDB establishes a PostgreSQL connection using pgxpool and runs initial SQL file
 func ConnectDB() error {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
 	databaseUrl := os.Getenv("DATABASE_URL")
 
 	if databaseUrl == "" {
