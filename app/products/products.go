@@ -9,14 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetProducts - tüm ürünleri getirir
-func GetProducts(c *gin.Context) {
+// GetPhotos - Tüm photo kayıtlarını getirir
+func GetProduct(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	query := `
-        SELECT id, name, description, price, stock, product_url, created_at, updated_at
+        SELECT id, url, category, title, description, uploaded_at
         FROM products
-        ORDER BY created_at DESC
+        ORDER BY uploaded_at DESC
     `
 	rows, err := db.DB.Query(ctx, query)
 	if err != nil {
@@ -26,16 +26,15 @@ func GetProducts(c *gin.Context) {
 	}
 	defer rows.Close()
 
-	var products []structs.Product
+	var photos []structs.Products
 	for rows.Next() {
-		var p structs.Product
-		err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.Price, &p.Stock, &p.ProductURL, &p.CreatedAt, &p.UpdatedAt)
-		if err != nil {
+		var p structs.Products
+		if err := rows.Scan(&p.ID, &p.URL, &p.Category, &p.Title, &p.Description, &p.UploadedAt); err != nil {
 			fmt.Println(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
-		products = append(products, p)
+		photos = append(photos, p)
 	}
 
 	if err := rows.Err(); err != nil {
@@ -44,17 +43,16 @@ func GetProducts(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, products)
+	c.JSON(http.StatusOK, photos)
 }
 
-// CreateProduct - yeni ürün ekler
+// CreatePhoto - Yeni photo kaydı oluşturur
 func CreateProduct(c *gin.Context) {
 	var input struct {
-		Name        string  `json:"name" binding:"required"`
+		URL         string  `json:"url" binding:"required,url"`
+		Category    string  `json:"category" binding:"required"`
+		Title       *string `json:"title"`
 		Description *string `json:"description"`
-		Price       float64 `json:"price" binding:"required,gt=0"`
-		Stock       int     `json:"stock" binding:"required,gte=0"`
-		ProductURL  string  `json:"product_url" binding:"required,url"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -66,40 +64,38 @@ func CreateProduct(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	query := `
-        INSERT INTO products (name, description, price, stock, product_url)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING id, created_at, updated_at
+        INSERT INTO products (url, category, title, description)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, uploaded_at
     `
-	var p structs.Product
-	err := db.DB.QueryRow(ctx, query, input.Name, input.Description, input.Price, input.Stock, input.ProductURL).
-		Scan(&p.ID, &p.CreatedAt, &p.UpdatedAt)
+	var photo structs.Products
+	err := db.DB.QueryRow(ctx, query, input.URL, input.Category, input.Title, input.Description).Scan(&photo.ID, &photo.UploadedAt)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	p.Name = input.Name
-	p.Description = input.Description
-	p.Price = input.Price
-	p.Stock = input.Stock
-	p.ProductURL = input.ProductURL
+	photo.URL = input.URL
+	photo.Category = input.Category
+	photo.Title = input.Title
+	photo.Description = input.Description
 
-	c.JSON(http.StatusCreated, p)
+	c.JSON(http.StatusCreated, photo)
 }
 
-// UpdateProduct - mevcut ürünü günceller
+// UpdatePhoto - Var olan kaydı günceller
 func UpdateProduct(c *gin.Context) {
 	var input struct {
 		ID          int     `json:"id" binding:"required"`
-		Name        string  `json:"name" binding:"required"`
+		URL         string  `json:"url" binding:"required,url"`
+		Category    string  `json:"category" binding:"required"`
+		Title       *string `json:"title"`
 		Description *string `json:"description"`
-		Price       float64 `json:"price" binding:"required,gt=0"`
-		Stock       int     `json:"stock" binding:"required,gte=0"`
-		ProductURL  string  `json:"product_url" binding:"required,url"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
+		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -108,24 +104,26 @@ func UpdateProduct(c *gin.Context) {
 
 	query := `
         UPDATE products
-        SET name = $1, description = $2, price = $3, stock = $4, product_url = $5, updated_at = NOW()
-        WHERE id = $6
+        SET url = $1, category = $2, title = $3, description = $4
+        WHERE id = $5
     `
-	cmdTag, err := db.DB.Exec(ctx, query, input.Name, input.Description, input.Price, input.Stock, input.ProductURL, input.ID)
+
+	cmdTag, err := db.DB.Exec(ctx, query, input.URL, input.Category, input.Title, input.Description, input.ID)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	if cmdTag.RowsAffected() == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Photo not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "Photo updated successfully"})
 }
 
-// DeleteProduct - ürün siler
+// DeletePhoto - Kayıt siler
 func DeleteProduct(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
@@ -139,16 +137,18 @@ func DeleteProduct(c *gin.Context) {
         DELETE FROM products
         WHERE id = $1
     `
+
 	cmdTag, err := db.DB.Exec(ctx, query, id)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	if cmdTag.RowsAffected() == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Photo not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "Photo deleted successfully"})
 }

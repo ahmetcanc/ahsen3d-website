@@ -11,23 +11,13 @@ type Contact struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-type Product struct {
-	ID          int       `json:"id"`
-	Name        string    `json:"name"`
-	Description *string   `json:"description,omitempty"`
-	Price       float64   `json:"price"`
-	Stock       int       `json:"stock"`
-	ProductURL  string    `json:"product_url"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-}
-
-type Photo struct {
+type Products struct {
 	ID          int       `json:"id"`
 	URL         string    `json:"url"`
 	Category    string    `json:"category"`
 	Title       *string   `json:"title,omitempty"`
 	Description *string   `json:"description,omitempty"`
+	Product_Url *string   `json:"product_url,omitempty"`
 	UploadedAt  time.Time `json:"uploaded_at"`
 }
 

@@ -18,25 +18,14 @@ CREATE TABLE IF NOT EXISTS home_contents (
 );
 
 -- 3. photos table
-CREATE TABLE IF NOT EXISTS photos (
+CREATE TABLE IF NOT EXISTS products (
     id           SERIAL PRIMARY KEY,
     url          VARCHAR(255) NOT NULL,
     category     VARCHAR(50)  NOT NULL,
     title        VARCHAR(100),
     description  TEXT,
+    product_url  VARCHAR(255),
     uploaded_at  TIMESTAMP    NOT NULL DEFAULT NOW()
-);
-
--- 4. products table
-CREATE TABLE IF NOT EXISTS products (
-    id           SERIAL PRIMARY KEY,
-    name         VARCHAR(150)  NOT NULL,
-    description  TEXT,
-    price        DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    stock        INT           NOT NULL DEFAULT 0,
-    product_url  VARCHAR(255)  NOT NULL,
-    created_at   TIMESTAMP     NOT NULL DEFAULT NOW(),
-    updated_at   TIMESTAMP     NOT NULL DEFAULT NOW()
 );
 
 -- 5. users table

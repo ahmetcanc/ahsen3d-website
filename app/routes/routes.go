@@ -5,7 +5,6 @@ import (
 	"ahsen3d/contact"
 	"ahsen3d/db"
 	"ahsen3d/home"
-	"ahsen3d/photos"
 	"ahsen3d/products"
 
 	"github.com/gin-gonic/gin"
@@ -21,9 +20,8 @@ func Routes(router *gin.Engine) {
 	api.POST("/login", authHandler.Login)
 
 	// Contact routes
-	api.GET("/contact", contact.GetContacts)
+	adminapi.GET("/contact", contact.GetContacts)
 	adminapi.POST("/contact", contact.CreateContact)
-	adminapi.PUT("/contact", contact.UpdateContact)
 	adminapi.DELETE("/contact/:id", contact.DeleteContact)
 
 	// Home routes
@@ -33,13 +31,7 @@ func Routes(router *gin.Engine) {
 	adminapi.DELETE("/home/:id", home.DeleteHome)
 
 	// Photos routes
-	api.GET("/photos", photos.GetPhotos)
-	adminapi.POST("/photos", photos.CreatePhoto)
-	adminapi.PUT("/photos", photos.UpdatePhoto)
-	adminapi.DELETE("/photos/:id", photos.DeletePhoto)
-
-	// Products routes
-	api.GET("/products", products.GetProducts)
+	api.GET("/products", products.GetProduct)
 	adminapi.POST("/products", products.CreateProduct)
 	adminapi.PUT("/products", products.UpdateProduct)
 	adminapi.DELETE("/products/:id", products.DeleteProduct)

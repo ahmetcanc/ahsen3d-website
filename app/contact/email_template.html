@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Mesaj</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .info {
+            margin-bottom: 15px;
+        }
+        .message {
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 6px;
+            white-space: pre-wrap;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Yeni Mesaj Alındı</div>
+        <div class="info"><strong>Gönderen:</strong> %s</div>
+        <div class="info"><strong>Email:</strong> %s</div>
+        <div class="message">%s</div>
+        <div class="footer">
+            Bu mesaj, web siteniz üzerinden gönderildi.
+        </div>
+    </div>
+</body>
+</html>

@@ -15,7 +15,14 @@ func main() {
 	}
 	// Initialize router
 	router := gin.Default()
-	// All routes
+	// Static files
+	router.NoRoute(func(c *gin.Context) {
+		file := c.Request.URL.Path
+		if file == "/" {
+			file = "/index.html"
+		}
+		c.File("./static" + file)
+	}) // All routes
 	routes.Routes(router)
 	// Start server
 	log.Println("Gin server started on port 3000...")

@@ -10,14 +10,24 @@ INSERT INTO home_contents (title, description) VALUES
 ('Kampanyalar', 'Bu ay tüm ürünlerde %20 indirim fırsatını kaçırmayın.'),
 ('Hakkımızda', 'Firmamız 10 yıldır kaliteli ürünler sunmaktadır.');
 
--- 3. photos tablosu için örnek insertler
-INSERT INTO photos (url, category, title, description) VALUES
-('https://example.com/images/photo1.jpg', 'doğa', 'Gün Batımı', 'Harika bir gün batımı manzarası.'),
-('https://example.com/images/photo2.jpg', 'şehir', 'İstanbul', 'Boğaz köprüsünün gece görüntüsü.'),
-('https://example.com/images/photo3.jpg', 'doğa', 'Orman', 'Yeşilin binbir tonu ile orman yürüyüşü.');
-
--- 4. products tablosu için örnek insertler
-INSERT INTO products (name, description, price, stock, product_url) VALUES
-('Bluetooth Kulaklık', 'Kablosuz, uzun pil ömürlü kulaklık.', 299.99, 50, 'https://example.com/products/bluetooth-kulaklik'),
-('Laptop Çantası', 'Su geçirmez, kaliteli laptop çantası.', 149.90, 100, 'https://example.com/products/laptop-cantasi'),
-('Gaming Mouse', 'Yüksek hassasiyetli oyuncu faresi.', 89.50, 30, 'https://example.com/products/gaming-mouse');
+INSERT INTO products (url, category, title, description) VALUES
+('https://hizliresim.com/7ofcvwa', '', 'Yasuo', ''),
+('https://hizliresim.com/h3vn4il', '', 'Kaplumbağa Bardak Altlığı', ''),
+('https://hizliresim.com/tm9emqy', '', 'Tung Tung Sahur Figür', '');
+('https://hizliresim.com/dvqypav', '', 'Tralalelo Figür', '');
+('https://hizliresim.com/65ec2ls', '', 'Toyota Logo Anahtarlık Dikiz Aynası Süsü', '');
+('https://hizliresim.com/cybi1i5', '', 'Toyoking Anahtarlık Dikiz Aynası Süsü', '');
+('https://hizliresim.com/ndbptpv', '', 'Tavşan Slikon Kalıbı', '');
+('https://hizliresim.com/6ma8fqu', '', 'Taraftar Tabelası', '');
+('https://hizliresim.com/owdl0le', '', 'Taraftar Anahtarlık Dikiz Aynası Süsü', '');
+('https://hizliresim.com/he5kapt', '', 'Araba Tamponu Anahtarlık Dikiz Aynası Süsü', '');
+('https://hizliresim.com/irqn8om', '', 'Şekerlik', '');
+('https://hizliresim.com/qj7a2c2', '', 'Samira Figürü', '');
+('https://hizliresim.com/mifw979', '', 'Plaka Dikiz Aynası Süsü', '');
+('https://hizliresim.com/fh0xkxk', '', 'Pati Magnet', '');
+('https://hizliresim.com/2f9ku6u', '', 'Panda Bardak Altlığı', '');
+('https://hizliresim.com/89w6y98', '', 'Osimhen Figürü', '');
+('https://hizliresim.com/gi0r06b', '', 'Ördek Sabunluk', '');
+('https://hizliresim.com/8d03aha', '', 'Love Fotoğraflı Ev Süsü', '');
+('https://hizliresim.com/7fs8rcr', '', 'Labubu Figürü', '');
+('https://hizliresim.com/mwwz5zx', '', 'Kedi Çift Anahtarlık', '');
